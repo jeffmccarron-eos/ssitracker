@@ -1,7 +1,25 @@
 import streamlit as st
+import os
+import subprocess
+
+# --- NEW: BROWSER INSTALLATION LOGIC ---
+# This ensures the browser exists in the Streamlit Cloud environment
+@st.cache_resource
+def install_playwright_browsers():
+    try:
+        # Check if browser is already there, if not, install it
+        subprocess.run(["playwright", "install", "chromium"], check=True)
+    except Exception as e:
+        st.error(f"Failed to install browser: {e}")
+
+install_playwright_browsers()
+
+# --- YOUR EXISTING IMPORTS ---
 import time
 from datetime import datetime
 from playwright.sync_api import sync_playwright
+
+# ... (the rest of your code)
 
 # --- CONFIGURATION ---
 TRACKING_NUMBER = "36162578"
